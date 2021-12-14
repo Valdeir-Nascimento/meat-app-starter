@@ -13,7 +13,7 @@ export class ShoppingCartService {
     addItem(item: MenuItem) {
         let foundedItem = this.items.find((mItem) => mItem.menuItem.id === item.id)
         if (foundedItem) {
-            foundedItem.quantity = foundedItem.quantity + 1;
+            this.increasyQty(foundedItem);
         } else {
             this.items.push(new CartItem(item))
         }
@@ -27,6 +27,17 @@ export class ShoppingCartService {
         return this.items
             .map(item => item.value())
             .reduce((prev, value) => prev + value, 0);
+    }
+
+    increasyQty(item: CartItem) {
+        item.quantity = item.quantity + 1;
+    }
+
+    decreasyQty(item: CartItem) {
+        item.quantity = item.quantity - 1;
+        if (item.quantity === 0) {
+            this.removeItem(item);
+        }
     }
 
 
